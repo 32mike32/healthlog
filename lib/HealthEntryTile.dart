@@ -71,6 +71,8 @@ class HealthEntryTile extends StatelessWidget {
     Color colorType = Colors.blue[600];
     Color colorWhoInType = Colors.blue[600];
 
+    HealthEntryComments _healthEntryComments = HealthEntryComments(context, healthEntry);
+
     var _dateFormat = DateFormat("dd.MM.yy");
 
     return Dismissible(
@@ -90,6 +92,7 @@ class HealthEntryTile extends StatelessWidget {
       },
       child: GestureDetector(
         onLongPress: () => _healthEntryModification(context, healthEntry),
+        onDoubleTap: () => _healthEntryComments.show(),
         child: Container(
           height: itemHeightInHealthScreen,
           child: Card(
@@ -152,7 +155,6 @@ class HealthEntryTile extends StatelessWidget {
   }
 
   void _healthEntryModification(BuildContext context, HealthEntry healthEntry) {
-
     Navigator.pushNamed(
         context,
         '/HealthScreenAddEntry',
@@ -161,5 +163,118 @@ class HealthEntryTile extends StatelessWidget {
             healthEntry: healthEntry
         )
     );
+  }
+}
+
+class HealthEntryComments {
+
+  BuildContext context;
+  HealthEntry healthEntry;
+  List<TextEditingController> _textEditingControllers = [];
+  int indexCommentsBeingModified = 0;
+  StateSetter showSetState;
+
+  HealthEntryComments(BuildContext context, HealthEntry healthEntry) {
+    this.context = context;
+    this.healthEntry = healthEntry;
+  }
+
+  Future<void> show() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+              builder: (context, setState) {
+                showSetState = setState;
+                return SimpleDialog(
+                    title: Row(
+                      children: <Widget>[
+                        Text("Commentaires"),
+                        IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                              showSetState(() {
+                                _addComment();
+                              });
+                            }
+                        ),
+                        IconButton(
+                            icon: Icon(Icons.check),
+                            onPressed: () {
+                              showSetState(() {
+                                print(indexCommentsBeingModified);
+                                _saveCommentsModification();
+                              });
+                            }
+                        ),
+                      ],
+                    ),
+                    backgroundColor: Colors.lightGreenAccent,
+                    children: _composeComments()
+
+                );
+              }
+          );
+        }
+    );
+  }
+
+  _addComment() {
+    DateTime _dateTimeNow = DateTime.now();
+    String _formattedDateTimeNow = DateFormat('dd-MM-yy').format(_dateTimeNow);
+    healthEntry.comments.add(_formattedDateTimeNow + " : ");
+    firebaseTool.modifyHealthEntry(healthEntry);
+  }
+
+  _saveCommentsModification() {
+    healthEntry.comments[indexCommentsBeingModified] = _textEditingControllers[indexCommentsBeingModified].value.text;
+    firebaseTool.modifyHealthEntry(healthEntry);
+  }
+
+  List<Widget> _composeComments() {
+    List<Widget> _commentsWidgetList = [];
+
+    for (int index = 0; index < healthEntry.comments.length; index++) {
+      _textEditingControllers.add(TextEditingController());
+      _textEditingControllers[index].text = healthEntry.comments[index];
+      _commentsWidgetList.add(
+          Card(
+              elevation: 10.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    flex: 10,
+                    child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      minLines: 1,
+                      maxLines: 5,
+                      controller: _textEditingControllers[index],
+                      onChanged: (value) => indexCommentsBeingModified = index,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      iconSize: 15.0,
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        showSetState(() {
+                          _deleteComment(index);
+                        });
+                      },
+                    ),
+                  )
+                ],
+              )
+          )
+      );
+    }
+    return _commentsWidgetList;
+  }
+
+  _deleteComment(int indexOfComment) {
+    healthEntry.comments.removeAt(indexOfComment);
+    firebaseTool.modifyHealthEntry(healthEntry);
   }
 }

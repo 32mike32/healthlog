@@ -35,6 +35,7 @@ class HealthEntry {
   List<String> patientList;
   CpamMnpafState cpam;
   CpamMnpafState mnpaf;
+  List<String> comments;
 
   HealthEntry.empty() {
     this.id = "";
@@ -45,9 +46,10 @@ class HealthEntry {
     this.patientList = [];
     this.cpam = CpamMnpafState.none;
     this.mnpaf = CpamMnpafState.none;
+    this.comments = [];
   }
 
-  HealthEntry({DateTime date, String type, String whoInType, double price, List<String> patientList, CpamMnpafState cpam, CpamMnpafState mnpaf}) {
+  HealthEntry({DateTime date, String type, String whoInType, double price, List<String> patientList, CpamMnpafState cpam, CpamMnpafState mnpaf, List<String> comments}) {
     this.id = "";
     this.date = date;
     this.type = type;
@@ -56,9 +58,10 @@ class HealthEntry {
     this.patientList = patientList;
     this.cpam = cpam;
     this.mnpaf = mnpaf;
+    this.comments = comments;
   }
 
-  HealthEntry.fromJson(dynamic key, dynamic value) {
+  /*HealthEntry.fromJson(dynamic key, dynamic value) {
     id = key.toString();
     date = DateTime.parse(value["date"]);
     type = value["type"];
@@ -67,7 +70,7 @@ class HealthEntry {
     patientList = List<String>.from(value["patientList"]);
     cpam = CpamMnpafState.values.firstWhere((element) => element.toString() == value["cpam"]);
     mnpaf = CpamMnpafState.values.firstWhere((element) => element.toString() == value["mnpaf"]);
-  }
+  }*/
 
   HealthEntry.fromSnapshot(DataSnapshot snapshot) {
     id = snapshot.key;
@@ -78,6 +81,11 @@ class HealthEntry {
     patientList = List<String>.from(snapshot.value["patientList"]);
     cpam = CpamMnpafState.values.firstWhere((element) => element.toString() == snapshot.value["cpam"]);
     mnpaf = CpamMnpafState.values.firstWhere((element) => element.toString() == snapshot.value["mnpaf"]);
+    if (snapshot.value["comments"] != null) {
+      comments = List<String>.from(snapshot.value["comments"]);
+    } else {
+      comments =[];
+    }
   }
 
   toJson() {

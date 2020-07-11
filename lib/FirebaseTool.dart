@@ -17,7 +17,8 @@ class FirebaseTool {
       'price': healthEntry.price,
       'patientList':healthEntry.patientList,
       'cpam': healthEntry.cpam.toString(),
-      'mnpaf': healthEntry.mnpaf.toString()
+      'mnpaf': healthEntry.mnpaf.toString(),
+      'comments':healthEntry.comments
     });
   }
 
@@ -38,7 +39,8 @@ class FirebaseTool {
       'price': healthEntry.price,
       'patientList':healthEntry.patientList,
       'cpam': healthEntry.cpam.toString(),
-      'mnpaf': healthEntry.mnpaf.toString()
+      'mnpaf': healthEntry.mnpaf.toString(),
+      'comments': healthEntry.comments
     });
   }
 

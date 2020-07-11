@@ -7,9 +7,10 @@ import 'HealthScreenAddEntry.dart';
 import 'RootPage.dart';
 
 /* TODO
+ - suppression des commentaires
  - dispose listen firebase
- - protéger la base de donnée firebase en read/write
  - ajouter un champ remarque
+   - ajouter comment dans fromJson, fromsnapchot et toJson dans healthentry
  - gérer les erreurs
 */
 
