@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:healthlog/Authentication.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String route="/LoginPage";
   LoginPage({this.auth, this.loginCallback});
 
   final Authentication auth;

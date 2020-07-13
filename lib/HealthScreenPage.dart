@@ -1,8 +1,11 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:healthlog/Authentication.dart';
 import 'package:healthlog/HealthEntryTile.dart';
 import 'package:healthlog/HealthScreenAddEntry.dart';
+
 import 'HealthEntry.dart';
 import 'main.dart';
 
@@ -13,6 +16,10 @@ Color colorBackground = Colors.green[100];
 
 class HealthScreenPage extends StatefulWidget {
   static const String route ="/HealthScreenPage";
+  final Authentication auth;
+  final VoidCallback logoutCallback;
+
+  HealthScreenPage({this.auth, this.logoutCallback});
 
   @override
   State createState() => HealthScreenPageState();
@@ -22,6 +29,7 @@ class HealthScreenPageState extends State<HealthScreenPage> {
 
   bool _cpamDisplayAll = true; // affiche t-on toutes les entrées CPAM ?
   bool _mnpafDisplayAll = true;  // affiche t-on toutes les entrées MNPAF ?
+  Authentication auth = Authentication();
 
   @override
   void initState() {
@@ -37,6 +45,12 @@ class HealthScreenPageState extends State<HealthScreenPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    firebaseTool.stopListenHealthEntry();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,19 +59,36 @@ class HealthScreenPageState extends State<HealthScreenPage> {
           children: <Widget>[
             Text("HealthLog"),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                FlatButton(
-                    onPressed: _toggleCpamDisplay,
-                    textColor: colorCpamMnpafStateAll,
-                    child: _displayCpamInAppBar()
+                SizedBox(
+                  width: 60,
+                  child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: _toggleCpamDisplay,
+                      textColor: colorCpamMnpafStateAll,
+                      child: _displayCpamInAppBar()
+                  ),
                 ),
-                FlatButton(
-                    onPressed: _toggleMnpafDisplay,
-                    textColor: colorCpamMnpafStateAll,
-                    child: _displayMnpafInAppBar()
+                Text("/"),
+                SizedBox(
+                  width: 60,
+                  child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: _toggleMnpafDisplay,
+                      textColor: colorCpamMnpafStateAll,
+                      child: _displayMnpafInAppBar()
+                  ),
                 )
               ],
+            ),
+            SizedBox(
+              width: 15,
+              child: IconButton(
+                  padding: EdgeInsets.all(0),
+                  onPressed: () {widget.logoutCallback();},
+                  icon: Icon(Icons.exit_to_app)
+              ),
             ),
           ],
         ),

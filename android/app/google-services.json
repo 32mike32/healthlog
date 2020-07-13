@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "388757745996",
-    "firebase_url": "https://healthlogtest.firebaseio.com",
-    "project_id": "healthlogtest",
-    "storage_bucket": "healthlogtest.appspot.com"
+    "project_number": "405883296883",
+    "firebase_url": "https://santelog-5e56d.firebaseio.com",
+    "project_id": "santelog-5e56d",
+    "storage_bucket": "santelog-5e56d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:388757745996:android:1832c3e1db37b96113dfe9",
+        "mobilesdk_app_id": "1:405883296883:android:b48e852b751d92cad3de06",
         "android_client_info": {
           "package_name": "com.michaelsoft.healthlog"
         }
       },
       "oauth_client": [
         {
-          "client_id": "388757745996-i8sac179qdfo0ma831shd1ks3jg46kco.apps.googleusercontent.com",
+          "client_id": "405883296883-jm4m3ltmrsoesuiffk28m2nv5ut5vgfk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCY0pT3zjBtg6TPWA4M1Vx_Jq9vcqHyOko"
+          "current_key": "AIzaSyAp8KRs-yQLZiIPtlBnTeucm4w2z7GTgOQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "388757745996-i8sac179qdfo0ma831shd1ks3jg46kco.apps.googleusercontent.com",
+              "client_id": "405883296883-jm4m3ltmrsoesuiffk28m2nv5ut5vgfk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

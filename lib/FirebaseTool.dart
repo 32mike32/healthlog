@@ -3,9 +3,9 @@ import 'package:healthlog/HealthEntry.dart';
 import 'package:healthlog/main.dart';
 
 class FirebaseTool {
-  // voir https://medium.com/@tattwei46/flutter-how-to-do-crud-with-firebase-rtdb-ce61e3ce53a
 
   final databaseReference = FirebaseDatabase.instance.reference();
+  Query healthEntryQuery;
 
   void saveHealthEntry(HealthEntry healthEntry) {
     String idPushed = databaseReference.child("HealthEntry").push().key;
@@ -45,10 +45,14 @@ class FirebaseTool {
   }
 
   void listenHealthEntry() {
-    Query _healthEntryQuery = databaseReference.child("HealthEntry");
-    _healthEntryQuery.onChildChanged.listen(_onEntryChanged);
-    _healthEntryQuery.onChildRemoved.listen(_onEntryRemoved);
-    _healthEntryQuery.onChildAdded.listen(_onEntryAdded);
+    healthEntryQuery = databaseReference.child("HealthEntry");
+    healthEntryQuery.onChildChanged.listen(_onEntryChanged);
+    healthEntryQuery.onChildRemoved.listen(_onEntryRemoved);
+    healthEntryQuery.onChildAdded.listen(_onEntryAdded);
+  }
+
+  void stopListenHealthEntry() {
+
   }
 
   _onEntryChanged(Event event) {
@@ -80,4 +84,7 @@ class FirebaseTool {
       // on ne fait rien, l'entrée existe déjà
     }
   }
+}
+
+class StreamSubscription {
 }

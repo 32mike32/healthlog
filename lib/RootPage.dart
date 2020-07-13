@@ -62,6 +62,7 @@ class _RootPageState extends State<RootPage> {
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
+      print("logoutCallback");
     });
   }
 
@@ -90,8 +91,8 @@ class _RootPageState extends State<RootPage> {
         if (_userId.length > 0 && _userId != null) {
           return HealthScreenPage(
             //userId: _userId,
-            //auth: widget.auth,
-            //logoutCallback: logoutCallback,
+            auth: widget.auth,
+            logoutCallback: logoutCallback,
           );
         } else
           return buildWaitingScreen();
