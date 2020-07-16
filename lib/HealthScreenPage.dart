@@ -30,6 +30,7 @@ class HealthScreenPageState extends State<HealthScreenPage> {
   bool _cpamDisplayAll = true; // affiche t-on toutes les entrées CPAM ?
   bool _mnpafDisplayAll = true;  // affiche t-on toutes les entrées MNPAF ?
   Authentication auth = Authentication();
+  Timer timer;
 
   @override
   void initState() {
@@ -37,9 +38,8 @@ class HealthScreenPageState extends State<HealthScreenPage> {
     firebaseTool.listenHealthEntry();
 
     // defines a timer
-    Timer.periodic(Duration(seconds: 1), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-
       });
     });
   }
@@ -47,7 +47,6 @@ class HealthScreenPageState extends State<HealthScreenPage> {
   @override
   void dispose() {
     super.dispose();
-    firebaseTool.stopListenHealthEntry();
   }
 
   @override
@@ -86,7 +85,10 @@ class HealthScreenPageState extends State<HealthScreenPage> {
               width: 15,
               child: IconButton(
                   padding: EdgeInsets.all(0),
-                  onPressed: () {widget.logoutCallback();},
+                  onPressed: () {
+                    timer.cancel();
+                    widget.logoutCallback();
+                    },
                   icon: Icon(Icons.exit_to_app)
               ),
             ),

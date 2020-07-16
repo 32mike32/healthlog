@@ -51,10 +51,6 @@ class FirebaseTool {
     healthEntryQuery.onChildAdded.listen(_onEntryAdded);
   }
 
-  void stopListenHealthEntry() {
-
-  }
-
   _onEntryChanged(Event event) {
     HealthEntry healthEntry = HealthEntry.fromSnapshot(event.snapshot);
     int index = entryList.getHealthEntryIndexById(healthEntry.id);

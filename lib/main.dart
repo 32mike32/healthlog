@@ -8,7 +8,6 @@ import 'RootPage.dart';
 
 /* TODO
  - suppression des commentaires
- - dispose listen firebase
  - ajouter un champ remarque
    - ajouter comment dans fromJson, fromsnapchot et toJson dans healthentry
  - gérer les erreurs
